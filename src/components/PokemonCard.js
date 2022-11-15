@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Card from 'react-bootstrap/Card';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
 
-function PokemonCard({ url, name }) {
+function PokemonCard({ name }) {
   const [pokemon, setPokemon] = useState(null);
 
   useEffect(() => {
-    fetch(url)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
       .then((res) => res.json())
       .then((data) => {
         setPokemon(data);
@@ -13,20 +14,22 @@ function PokemonCard({ url, name }) {
       .catch((error) => {
         console.error(error);
       });
-  }, [url]);
+  }, [name]);
 
   return (
-    <Card style={{ width: '18rem' }} className='mx-auto'>
+    <Card style={{ width: "18rem" }} className="mx-auto">
       <Card.Img
-        width='286'
-        height='286'
-        bg='dark'
-        variant='top'
+        width="286"
+        height="286"
+        bg="dark"
+        variant="top"
         src={pokemon?.sprites.front_default}
       />
       <Card.Body>
-        <Card.Title>{name}</Card.Title>
-        <Card.Text as='div'>
+        <Card.Title>
+          <Link to={`/${name}`}>{name}</Link>
+        </Card.Title>
+        <Card.Text as="div">
           Abilities:
           <ul>
             {pokemon?.abilities.map((ability) => (
